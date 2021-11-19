@@ -1,0 +1,19 @@
+[
+  {
+    "dt": ["2021-09-09", ""],
+    "a": [
+      { "id": "sigurd-scythe" },
+      { "id": "ancient-dragons-legacy" },
+      { "id": "double-edged-decrescent" },
+      { "id": "doctors-bag" },
+      { "id": "els-fist" },
+      { "id": "hilag-lance" },
+      { "id": "infinity-basket" }
+
+    ]
+  },
+  {
+    "dt": [12873984, 32487203],
+    "a": [{ "id": "aurius" }, { "id": "dust-devil" }]
+  }
+]
