@@ -147,10 +147,10 @@ export default {
       this.shop ? h('ul', {style: {width: '100%', height: '100%', overflow: 'auto'}, attrs: {id: 'shop-slides'}}, [
         h('transition', {attrs: {name:'slide-bounce'}}, [
           h('div', {key: this.slide, staticClass: 'powder-slide-rotations', style: {position: 'absolute', 'z-index': 1, top: 0, left: 0}}, [
-            h('div', {staticClass: 'title-container'}, 'Data della rotazione'),
+            h('div', {staticClass: 'title-container'}, 'Data della rotazione (' + (this.slide+1) + '/' + this.shop.length + ')'),
             h('div', {staticClass: 'rotation'},
               this.shop[this.slide].a.map( (artifact,j) => {
-                return h('div', {staticClass: 'artifact', style: {}}, [
+                return h('div', {staticClass: 'artifact', style: {'background-image': 'url('+['https://assets.epicsevendb.com/_source/item_arti/art5_21_fu.png','https://assets.epicsevendb.com/_source/item_arti/art0122_fu.png','https://epic7x.com/wp-content/uploads/2020/10/Double-Edged-Decrescent.png','https://assets.epicsevendb.com/_source/item_arti/art0094_fu.png','https://assets.epicsevendb.com/_source/item_arti/art5_20_fu.png','https://assets.epicsevendb.com/_source/item_arti/art4_5_fu.png','https://assets.epicsevendb.com/_source/item_arti/art4_16_fu.png'][j] +')'  }}, [
                     h('td', {style: {'padding-left': '8px'}}, new Array(this.artifact(artifact.id).rarity || 1).fill(h('img', {attrs: {src: this.getRarityIcon()}, style: {height: '20px', 'margin-left': '-8px', 'vertical-align': 'middle'} }))),
                     h('span', {style: {'writing-mode': 'vertical-lr','text-orientation': 'inherit',transform: 'rotate(180deg)',position: 'absolute',bottom: 0,right: 0,'font-size': '30px','color': 'yellow','text-shadow': '0 0px 5px #e99e14'} }, this.artifact(artifact.id).name)
                 ])
@@ -185,28 +185,25 @@ export default {
 (function () {
   var styles = `
     .slide-bounce-enter-active {
-      animation: rotation-slide-in .3s;
+      /*animation: rotation-slide-in .5s;*/
     }
     .slide-bounce-leave-active {
-      animation: rotation-slide-out .3s;
+      /*animation: rotation-slide-out .5s;*/
     }
     @keyframes rotation-slide-in {
       0% {
-        transform: scale(0.8);
-        opacity: 0.5;
+        opacity: 0;
       }
       100% {
         opacity: 1;
-        transform: scale(1);
       }
     }
     @keyframes rotation-slide-out {
       0% {
-        transform: scale(1);
+        opacity: 1;
       }
       100% {
         opacity: 0;
-        transform: scale(0.8);
       }
     }
     .powder-slide-rotations {
