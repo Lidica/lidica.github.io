@@ -113,6 +113,11 @@ var routes = [
     component: () => import('./component/chrs-stats.js')
   },
   {
+    path: '/powder-shop',
+    name: 'Powder Shop | CeciliaBot Tools',
+    component: () => import('./component/powder-shop.js')
+  },
+  {
     path: '/event-calendar',
     name: 'Events Calendar | CeciliaBot Tools',
     component: () => import('./component/calendar.js')
@@ -133,8 +138,13 @@ var routes = [
     component: () => import('./component/gear-score.js')
   },
   {
+    path: '/gear-gacha',
+    name: 'Gear Gacha | CeciliaBot Tools',
+    component: () => import('./component/gear-gacha.js')
+  },
+  {
     path: '*',
-    name: '404 | CeciliaBot Tools',
+    name: 'Not found | CeciliaBot Tools',
     component: () => import('./component/404.js')
   }
 ];
@@ -171,6 +181,7 @@ const store = new Vuex.Store({
       HeroDB: null,
       ArtifactDB: null,
       banners: null,
+      powderShop: null,
       indexedDB: null,
       pulls: null
     },
@@ -248,6 +259,9 @@ const store = new Vuex.Store({
       updateBanners: function (state, data) {
         state.banners = data;
       },
+      updatePowderShop: function (state, data) {
+        state.powderShop = data;
+      },
       updateIndexedPulls: function (state, data) {
         state.indexedDB = data;
       },
@@ -262,7 +276,7 @@ const store = new Vuex.Store({
       getHeroDB: function (context) {
         return new Promise((resolve, reject) => {
           if (context.state.HeroDB) return resolve(context.state.HeroDB);
-          httpGetAsync('https://raw.githubusercontent.com/CeciliaBot/CeciliaBot.github.io/master/HeroDatabase.json').then( (res) => {
+          httpGetAsync('data/HeroDatabase.json').then( (res) => {
             var data = JSON.parse(res);
             context.commit('updateHeroDB', data);
             resolve(data);
@@ -274,7 +288,7 @@ const store = new Vuex.Store({
       getArtifactDB: function (context) {
         return new Promise((resolve, reject) => {
           if (context.state.ArtifactDB) return resolve(context.state.ArtifactDB);
-          httpGetAsync('artifacts.json').then( (res) => {
+          httpGetAsync('data/artifacts.json').then( (res) => {
             var data = JSON.parse(res);
             var obj = {};
             for (var i in data) {
@@ -290,7 +304,7 @@ const store = new Vuex.Store({
       getBanners: function (context) {
         return new Promise((resolve, reject) => {
           if (context.state.banners) return resolve(context.state.banners);
-          httpGetAsync('timeline-items.json').then( (res) => {
+          httpGetAsync('data/timeline-items.json').then( (res) => {
             var data = JSON.parse(res);
             data.forEach(item => { if (item.type!='event') item.id=bannerId(item) });
             var today = new Date();
@@ -304,7 +318,19 @@ const store = new Vuex.Store({
           });
         });
       },
-      loadIndexedDB: function (context, database = 'timeline',version=1) {
+      getPowderShop: function (context) {
+        return new Promise((resolve, reject) => {
+          if (context.state.powderShop) return resolve(context.state.powderShop);
+          httpGetAsync('data/powder-shop.json').then( (res) => {
+            var data = JSON.parse(res);
+            context.commit('updatePowderShop', data);
+            resolve(data);
+          }).catch(err => {
+            reject(err);
+          });
+        });
+      },
+      loadIndexedDB: function (context, database = 'timeline',version=2) {
         return new Promise((resolve, reject) => {
           if (context.state.indexedDB) return resolve(context.state.indexedDB);
           let request = window.indexedDB.open(database, version);
@@ -319,7 +345,7 @@ const store = new Vuex.Store({
             resolve(e.target.result);
           };
           request.onupgradeneeded = e => {
-            var stores = [{name: 'pulls', keyPath: 'id'},{name: 'tierlist', keyPath: 'id'}]
+            var stores = [{name: 'pulls', keyPath: 'id'},{name: 'tierlist', keyPath: 'id'},{name: 'camping', keyPath: 'id'}]
             app.$root.$emit('snackbar', {type: 'info', title: 'IndexedDB', description: 'Running onupgradeneeded'});
             let db = e.target.result;
             for (var i=0; i<stores.length; i++) {
@@ -472,7 +498,7 @@ var app = new Vue ({
   },
   data: function () {
     return {
-      VERSION: '1.1a',
+      VERSION: '1.0',
       memed: false,
       userLang: navigator.language || navigator.userLanguage,
     }
