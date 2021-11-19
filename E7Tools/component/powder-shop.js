@@ -24,11 +24,12 @@ export default {
       this.$nextTick(() => {
         this.toggleLoading(false);
         this.createObserver();
-        document.getElementById('shop-slides').addEventListener('wheel', this.mousewheel, true)
+        document.getElementById('shop-slides').addEventListener('wheel', this.mousewheel, true);
       })
     });
   },
   beforeDestroy: function(){
+    document.getElementById('shop-slides').removeEventListener('wheel', this.mousewheel);
   },
   mounted: function () {
   },
