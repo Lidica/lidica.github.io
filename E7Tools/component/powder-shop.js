@@ -1,0 +1,253 @@
+console.log('powder shop');
+/*global Vue*/
+
+export default {
+  name: 'timeline',
+  props: {
+  },
+  data: function () {
+    return {
+      shop: null,
+      artifacts: null,
+      slide: 0
+    }
+  },
+  beforeCreate: function () {
+    this.$store.commit('loading', true);
+  },
+  created: function () {
+    this.toggleLoading(true);
+    Promise.all([this.$store.dispatch('getPowderShop'), this.$store.dispatch('getArtifactDB')]).then(data => {
+      this.shop = data[0];
+      this.artifacts = data[1];
+      this.ready = true;
+      this.$nextTick(() => {
+        this.toggleLoading(false);
+        this.createObserver();
+        document.getElementById('shop-slides').addEventListener('wheel', this.mousewheel, true)
+      })
+    });
+  },
+  beforeDestroy: function(){
+  },
+  mounted: function () {
+  },
+  beforeUpdate: function () {
+  },
+  updated: function () {
+  },
+  watch: {
+  },
+  methods: {
+    home: function () {
+      this.$store.commit('toggleMainMenu');
+    },
+    toggleLoading: function (val,text) {
+      this.$store.commit('loading', val, text);
+    },
+    loading: function () { /*VUE  will update dom then run js*/
+      this.$store.commit('loading', true);
+      return new Promise((resolve,reject)=>{
+        setTimeout(() => {
+          resolve();
+          this.$nextTick(()=>{
+            this.$store.commit('loading', false);
+          })
+        }, 0);
+      })
+    },
+    artifact: function (id) {
+      return this.$store.getters.getArtifact(id);
+    },
+    getArtifactIcon: function (id) {
+      return this.$store.getters.getArtifactIcon(id);
+    },
+    getRarityIcon: function (id) {
+      return this.$store.getters.getRarityIcon(id);
+    },
+    getRoleIcon: function (id) {
+      return this.$store.getters.getRoleIcon(id);
+    },
+    mousewheel: function (e) {
+      e.preventDefault();
+      if (e.deltaY<0) {
+        if (this.slide > 0)
+          document.getElementById('shop-slides').scrollTop-=window.innerHeight;
+      } else {
+        if (this.slide < this.shop.length)
+          document.getElementById('shop-slides').scrollTop+=window.innerHeight;
+      };
+    },
+    scrollSlide: function (e) {
+      console.log(e);
+      var lastPos = document.body.scrollTop;
+      window.requestAnimationFrame(() => {
+        var pos = document.body.scrollTop;
+        console.log(lastPos, pos)
+        if (lastPos >= pos) {
+          if (this.slide > 0)
+            window.scrollY = (this.slide-1)*window.innerHeight;
+        } else {
+          if (this.slide < this.shop.length)
+            window.scrollY = (this.slide+1)*window.innerHeight;
+        };
+      });
+    },
+    createObserver: function () {
+      let observer;
+      let options = {
+        root: null,
+        rootMargin: "0px",
+        threshold: 1.0
+      };
+      observer = new IntersectionObserver((entries) => {
+          console.log(entries)
+          entries.forEach(entry => {
+            console.log(entry.isIntersecting)
+            var val=parseInt(entry.target.attributes.index.value);
+            if (entry.intersectionRatio === 1) {
+              this.slide = val;
+              return;
+            } else {
+              
+            }
+          });
+          console.log(this.slide);
+        }, 
+        options
+      );
+      const boxElList = document.querySelectorAll('li');
+      boxElList.forEach((el) => {
+        observer.observe(el);
+      });
+    },
+  },
+  computed: {
+    mobile: function () {
+      return this.$store.state.isMobile;
+    }
+  },
+  render: function (h) {
+    return h('section', {staticClass: '', style: {/*width: '100%', 'max-width': '800px', margin: 'auto'*/} }, [
+      h('floating-menu',{props: {mobile: this.mobile, options: [{title: 'Home', class: 'fa fa-home', click: 'home'}]}, on: {home: ()=>this.home()} }),
+      /*h('h2', 'Powder shop rotations'),*/
+      /*
+      this.shop ? h('table', {style: {width: '100%', 'background-color': '#252526', 'border-collapse': 'collapse', border: 'solid black', 'text-align': 'center'}}, this.shop.map( (rotation,i) => {
+        return rotation.a.map( (artifact,j) => {
+          return h('tr', {style: {'border-top': i!==0&&j===0?'solid black':''}}, [
+            j===0 ? h('td', {attrs: {rowspan: rotation.a.length || 1}}, rotation.dt[0]) : null,
+            h('td', [h('img', {attrs: {src: this.getArtifactIcon(artifact.id)}, style: {height: '70px'} })]),
+            h('td', this.artifact(artifact.id).name),
+            h('td', [h('img', {attrs: {src: this.getRoleIcon(this.artifact(artifact.id).role) }, style: {height: '36px', 'vertical-align': 'middle'}})]),
+            h('td', {style: {'padding-left': '8px'}}, new Array(this.artifact(artifact.id).rarity || 1).fill(h('img', {attrs: {src: this.getRarityIcon()}, style: {height: '20px', 'margin-left': '-8px', 'vertical-align': 'middle'} })))
+          ])
+        })
+      })) : null*/
+      this.shop ? h('ul', {style: {width: '100%', height: '100%', overflow: 'auto'}, attrs: {id: 'shop-slides'}}, [
+        h('transition', {attrs: {name:'slide-bounce'}}, [
+          h('div', {key: this.slide, staticClass: 'powder-slide-rotations', style: {position: 'absolute', 'z-index': 1, top: 0, left: 0}}, [
+            h('div', {staticClass: 'title-container'}, 'Data della rotazione'),
+            h('div', {staticClass: 'rotation'},
+              this.shop[this.slide].a.map( (artifact,j) => {
+                return h('div', {staticClass: 'artifact', style: {}}, [
+                    h('td', {style: {'padding-left': '8px'}}, new Array(this.artifact(artifact.id).rarity || 1).fill(h('img', {attrs: {src: this.getRarityIcon()}, style: {height: '20px', 'margin-left': '-8px', 'vertical-align': 'middle'} }))),
+                    h('span', {style: {'writing-mode': 'vertical-lr','text-orientation': 'inherit',transform: 'rotate(180deg)',position: 'absolute',bottom: 0,right: 0,'font-size': '30px','color': 'yellow','text-shadow': '0 0px 5px #e99e14'} }, this.artifact(artifact.id).name)
+                ])
+              })
+            )
+          ])
+        ]),
+        this.shop.map( (rotation,i) => {
+          return h('li', {staticClass: 'powder-slide-rotations', style: {visibility: 'hidden'}, attrs: {index: i}}, [
+            h('div', {staticClass: 'title-container'}, 'Data della rotazione'),
+            h('div', {staticClass: 'rotation'},
+              rotation.a.map( (artifact,j) => {
+                return h('div', {staticClass: 'artifact', style: {}}, [
+                    h('td', {style: {'padding-left': '8px'}}, new Array(this.artifact(artifact.id).rarity || 1).fill(h('img', {attrs: {src: this.getRarityIcon()}, style: {height: '20px', 'margin-left': '-8px', 'vertical-align': 'middle'} }))),
+                    h('span', {style: {'writing-mode': 'vertical-lr','text-orientation': 'inherit',transform: 'rotate(180deg)',position: 'absolute',bottom: 0,right: 0,'font-size': '30px','color': 'yellow','text-shadow': '0 0px 5px #e99e14'} }, this.artifact(artifact.id).name)
+                ])
+              })
+            )
+          ])
+        })
+      ]) : null
+    ]);
+  }
+};
+
+
+
+
+
+
+/* ADD extra css */
+(function () {
+  var styles = `
+    .slide-bounce-enter-active {
+      animation: rotation-slide-in .3s;
+    }
+    .slide-bounce-leave-active {
+      animation: rotation-slide-out .3s;
+    }
+    @keyframes rotation-slide-in {
+      0% {
+        transform: scale(0.8);
+        opacity: 0.5;
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+    @keyframes rotation-slide-out {
+      0% {
+        transform: scale(1);
+      }
+      100% {
+        opacity: 0;
+        transform: scale(0.8);
+      }
+    }
+    .powder-slide-rotations {
+      display: inline-block;
+      width: 100%;
+      height: 100%;
+      background-color: #252526;
+    }
+    .powder-slide-rotations > .title-container {
+      height: 35px;
+      width: 100%;
+      height: 35px;
+      width: 100%;
+      background-color: white;
+      color: black;
+      text-align: center;
+      line-height: 35px;
+    }
+    .powder-slide-rotations > .rotation {
+      display: flex;
+      width: 100%;
+      height: calc(100% - 35px);
+    }
+    .powder-slide-rotations > .rotation > .artifact {
+      flex: 1;
+      position: relative;
+      height: 100%;
+      max-width: 378px;
+      display: inline-block;
+      transition: all ease .3s;
+      background-image: url(https://assets.epicsevendb.com/_source/item_arti/art0105_fu.png);
+      background-size: cover; 
+      background-position-x: 50%;
+      filter: grayscale(50%);
+    }
+    .powder-slide-rotations > .rotation > .artifact:hover {
+      filter: grayscale(0);
+    }
+  }
+  `;
+  var styleSheet = document.createElement("style");
+  styleSheet.type = "text/css";
+  styleSheet.innerText = styles;
+  document.head.appendChild(styleSheet);
+})();
