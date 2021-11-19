@@ -39,11 +39,11 @@
     </style>
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script defer src="https://www.googletagmanager.com/gtag/js?id=UA-161715700-1"></script>
-    <script>
+    <script>/*
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-      gtag('config', 'UA-161715700-1');
+      gtag('config', 'UA-161715700-1');*/
     </script>
     <body>
         <div id="app">
@@ -67,7 +67,7 @@
             <div id="main_menu" v-show="mainMenu" class="mm_container" v-cloak>
               <h2>CeciliaBot Tools</h2>
               <div class="app_drawer">
-                <div v-for="x in [{title: 'Timeline', icon: 'https://cdn.glitch.com/6c14ca82-3bcb-4fd6-afa7-815b95e04a14%2Ftimeline-icon3.png?v=1631368191379', click: 'timeline'}/*, {title: 'Stats', class: 'fas fa-flask', click: 'stats'}*/, {title: 'Character', class: 'fas fa-users', click: 'character-stats'}, {title: 'Events', class: 'fa fa-calendar-alt', click: 'event-calendar'}, {title: 'Gacha Sim', icon: 'https://cdn.glitch.com/6c14ca82-3bcb-4fd6-afa7-815b95e04a14%2FFile11226.png?v=1632411965681', click: 'summon-simulator'}, {title: 'Tier Maker', class: 'fa fa-trophy', click: 'tierlist-maker'}, /*{title: 'Camping', icon: 'https://cdn.glitch.com/5c21c869-ea9a-48ba-b019-90cd493f45cd%2Fcamp-fire-icon%20small.png?v=1585067234171', click: 'camping_simulator'},*/ {title: 'Gear Score', class: 'fa fa-info-circle', click: 'gear-score'}, {title: 'About', class: 'fa fa-info-circle', click: 'about', keep: true}]" v-on:click="mainMenuClick(x.click,x.keep)">
+                <div v-for="x in [{title: 'Timeline', icon: 'https://cdn.glitch.com/6c14ca82-3bcb-4fd6-afa7-815b95e04a14%2Ftimeline-icon3.png?v=1631368191379', click: 'timeline'}/*, {title: 'Stats', class: 'fas fa-flask', click: 'stats'}*/, {title: 'Character', class: 'fas fa-users', click: 'character-stats'}, {title: 'Powder Shop', click: 'powder-shop', icon: 'https://cdn.glitch.me/f70857a1-7b0f-4f6d-a1f1-2c24d95fcc88%2Fpowder-nocolor.png'},/* {title: 'Events', class: 'fa fa-calendar-alt', click: 'event-calendar'},*/ {title: 'Gacha Sim', icon: 'https://cdn.glitch.com/6c14ca82-3bcb-4fd6-afa7-815b95e04a14%2FFile11226.png?v=1632411965681', click: 'summon-simulator'}, {title: 'Tier Maker', class: 'fa fa-trophy', click: 'tierlist-maker'}, /*{title: 'Camping', icon: 'https://cdn.glitch.com/5c21c869-ea9a-48ba-b019-90cd493f45cd%2Fcamp-fire-icon%20small.png?v=1585067234171', click: 'camping_simulator'},*/ {title: 'Gear Score', class: 'fa fa-info-circle', click: 'gear-score'}/*, {title: 'About', class: 'fa fa-info-circle', click: 'about', keep: true}*/]" v-on:click="mainMenuClick(x.click,x.keep)">
                   <div>
                     <i v-if="x.class" v-bind:class="x.class" aria-hidden="true"></i>
                     <img v-else :src="x.icon" height="70%"/>
@@ -75,7 +75,7 @@
                   <h3>{{x.title}}</h3>
                 </div>
               </div>
-              <div class="socials">
+              <div class="socials" style="display: none">
                 <a v-for="i in [{name:'Reddit', cls:'fab fa-reddit'},{name:'Discord', cls:'fab fa-discord'},{name:'Telegram', cls:'fab fa-telegram'}]" href="i.link"><i :class="i.cls"></i></a>
               </div>
             </div>
