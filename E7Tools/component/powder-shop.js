@@ -38,7 +38,8 @@ export default {
       shop: null,
       artifacts: null,
       slide: 0,
-      animationEnter: 'slide-from-right'
+      animationEnter: 'slide-from-right',
+      openShopList: false
     }
   },
   watch: {
@@ -109,6 +110,9 @@ export default {
     getRoleIcon: function (id) {
       return this.$store.getters.getRoleIcon(id);
     },
+    toggleShopList: function () {
+      this.openShopList = !this.openShopList;
+    },
     mousewheel: function (e) {
       e.preventDefault();
       if (e.deltaY<0) {
@@ -138,6 +142,9 @@ export default {
       } else if (n<0&&this.slide>0) {
         document.getElementById('shop-slides').scrollTop = (this.slide-1)*window.innerHeight;
       };
+    },
+    scrollToSelected: function (n) {
+      document.getElementById('shop-slides').scrollTop = (n)*window.innerHeight;
     },
     createObserver: function () {
       let observer;
@@ -190,7 +197,10 @@ export default {
       this.shop ? h('ul', {style: {width: '100%', height: '100%', overflow: 'auto'}, attrs: {id: 'shop-slides'}, on: {'swipe-left': () => this.scrollBySwipe(1),'swipe-right': () => this.scrollBySwipe(-1),'swipe-up': () => this.scrollBySwipe(-1),'swipe-down': () => this.scrollBySwipe(1)}}, [
         h('transition', {attrs: {name: this.animationEnter}}, [
           h('div', {key: this.slide, staticClass: 'powder-slide-rotations', style: {position: 'absolute', 'z-index': 1, top: 0, left: 0}}, [
-            h('div', {staticClass: 'title-container'}, 'Data della rotazione (' + (this.slide+1) + '/' + this.shop.length + ')'),
+            h('div', {staticClass: 'title-container'}, [
+              h('button', {staticClass: 'fa fa-list rotation-list-btn', on: {click: () => this.toggleShopList()}}),
+              'Data della rotazione (' + (this.slide+1) + '/' + this.shop.length + ')'
+            ]),
             h('div', {staticClass: 'rotation'},
               this.shop[this.slide].a.map( (artifact,j) => {
                 return h('div', {staticClass: 'artifact', style: {'background-image': 'url('+['https://assets.epicsevendb.com/_source/item_arti/art5_21_fu.png','https://assets.epicsevendb.com/_source/item_arti/art0122_fu.png','https://epic7x.com/wp-content/uploads/2020/10/Double-Edged-Decrescent.png','https://assets.epicsevendb.com/_source/item_arti/art0094_fu.png','https://assets.epicsevendb.com/_source/item_arti/art5_20_fu.png','https://assets.epicsevendb.com/_source/item_arti/art4_5_fu.png','https://assets.epicsevendb.com/_source/item_arti/art4_16_fu.png'][j] +')'  }}, [
@@ -213,6 +223,11 @@ export default {
               })
             )
           ])
+        })
+      ]) : null,
+      this.shop&&this.openShopList ? h('div', {staticClass: 'glass-container rotation-list-box'}, [
+        this.shop.map( (rotation,i) => {
+          return h('div', {staticClass: 'elements', class: {active: this.slide === i}, on: {click: () => this.scrollToSelected(i)} }, (i+1) + '. ' + rotation.dt[0])
         })
       ]) : null
     ]);
@@ -298,6 +313,35 @@ export default {
     }
     .powder-slide-rotations > .rotation > .artifact:hover {
       filter: grayscale(0);
+    }
+    .rotation-list-btn {
+      float: right;
+      padding: 6px;
+      margin: 2px 10px 2px 0;
+      cursor: pointer;
+      background-color: #0001;
+      border: none;
+      font-size: 16px;
+    }
+    .rotation-list-box {
+      position: absolute;
+      height: calc(100% - 35px);
+      top: 35px;
+      width: 300px;
+      right: 0;
+      overflow: auto;
+      z-index: 1;
+    }
+    .rotation-list-box > .elements {
+      color: white;
+      padding: 10px;
+      cursor: pointer;
+    }
+    .rotation-list-box > .elements.active {
+      background-color: #05050540;
+    }
+    .rotation-list-box > .elements:not(.active):hover {
+      background-color: #05050540;
     }
   }
   `;
