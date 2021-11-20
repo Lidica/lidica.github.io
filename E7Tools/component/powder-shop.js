@@ -249,7 +249,7 @@ export default {
     }
     @keyframes rotation-slide-in-left {
       0% {
-        transform: translateX(-30%) scale(0.85);
+        transform: translateX(-70%) scale(0.85);
       }
       100% {
         transform: translateX(0) scale(1);
