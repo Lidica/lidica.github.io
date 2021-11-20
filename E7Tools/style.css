@@ -66,6 +66,12 @@ input[type=number] {
     -ms-user-select: none;
     user-select: none;
 }
+.glass-container {
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  box-shadow: 0px 10px 15px 10px rgb(0 0 0 / 15%);
+  background-color: rgb(228 228 228 / 15%);
+}
 
 .timeline .date {
     position: absolute;
@@ -302,6 +308,8 @@ div.isnew:after {
   margin: auto;
   border-radius: 10px;
   color: black;
+  animation: animatezoom 0.3s;
+  -webkit-animation: animatezoom 0.3s;
 }
 .flat-modal > h1 {
   text-align: center;
@@ -628,10 +636,10 @@ table td.r, table th.r {
 .vtimeline {
     position: relative;
     list-style: none;
-    display: inline-flex;
+    display: flex;
     flex-wrap: nowrap;
     flex-direction: column;
-    margin: 0;
+    margin: auto;
     padding: 100px 0;
     width: 100%;
     max-width: 900px;
@@ -738,7 +746,6 @@ table td.r, table th.r {
 	background-color: white;
 	pointer-events: none;
 }
-}
 
 /* style for the event arrow */
 /*
@@ -754,14 +761,8 @@ table td.r, table th.r {
     background: #fff;
 }*/
 .vtimeline div .icon_container {
-    /*overflow: hidden;*/
-    position: sticky;
-    right: 0;
-    left: 0;
     display: inline-block;
-    vertical-align: top;
     width: 100%;
-    float: right;
 }
 .vtimeline div .icon_container > div{
     width: inherit;
