@@ -37,7 +37,17 @@ export default {
     return {
       shop: null,
       artifacts: null,
-      slide: 0
+      slide: 0,
+      animationEnter: 'slide-from-right'
+    }
+  },
+  watch: {
+    slide: function (old, val) {
+      if (val > old) {
+        this.animationEnter = 'slide-from-right';
+      } else {
+        this.animationEnter = 'slide-from-left';
+      }
     }
   },
   beforeCreate: function () {
@@ -68,8 +78,6 @@ export default {
   beforeUpdate: function () {
   },
   updated: function () {
-  },
-  watch: {
   },
   methods: {
     home: function () {
@@ -117,10 +125,10 @@ export default {
         var pos = document.body.scrollTop;
         if (lastPos >= pos) {
           if (this.slide > 0)
-            window.scrollY = (this.slide-1)*window.innerHeight;
+            window.scrollY = (this.slide-1)*window.innerHeight-10;
         } else {
           if (this.slide < this.shop.length)
-            window.scrollY = (this.slide+1)*window.innerHeight;
+            window.scrollY = (this.slide+1)*window.innerHeight-10;
         };
       });
     },
@@ -136,12 +144,12 @@ export default {
       let options = {
         root: null,
         rootMargin: "0px",
-        threshold: 1.0
+        threshold: 0.8
       };
       observer = new IntersectionObserver((entries) => {
           entries.forEach(entry => {
             var val=parseInt(entry.target.attributes.index.value);
-            if (entry.intersectionRatio === 1) {
+            if (entry.isIntersecting) {
               this.slide = val;
               return;
             } else {
@@ -180,7 +188,7 @@ export default {
         })
       })) : null*/
       this.shop ? h('ul', {style: {width: '100%', height: '100%', overflow: 'auto'}, attrs: {id: 'shop-slides'}, on: {'swipe-left': () => this.scrollBySwipe(1),'swipe-right': () => this.scrollBySwipe(-1),'swipe-up': () => this.scrollBySwipe(-1),'swipe-down': () => this.scrollBySwipe(1)}}, [
-        h('transition', {attrs: {name:'slide-bounce'}}, [
+        h('transition', {attrs: {name: this.animationEnter}}, [
           h('div', {key: this.slide, staticClass: 'powder-slide-rotations', style: {position: 'absolute', 'z-index': 1, top: 0, left: 0}}, [
             h('div', {staticClass: 'title-container'}, 'Data della rotazione (' + (this.slide+1) + '/' + this.shop.length + ')'),
             h('div', {staticClass: 'rotation'},
@@ -219,18 +227,32 @@ export default {
 /* ADD extra css */
 (function () {
   var styles = `
-    .slide-bounce-enter-active {
+    .slide-from-left-enter-active {
       animation: rotation-slide-in .5s;
     }
-    .slide-bounce-leave-active {
+    .slide-from-left-leave-active {
+      animation: rotation-slide-out .5s;
+    }
+    .slide-from-right-enter-active {
+      animation: rotation-slide-in-left .5s;
+    }
+    .slide-from-right-leave-active {
       animation: rotation-slide-out .5s;
     }
     @keyframes rotation-slide-in {
       0% {
-        transform: scale(0.85);
+        transform: translateX(70%) scale(0.85);
       }
       100% {
-        transform: scale(1);
+        transform: translateX(0) scale(1);
+      }
+    }
+    @keyframes rotation-slide-in-left {
+      0% {
+        transform: translateX(-30%) scale(0.85);
+      }
+      100% {
+        transform: translateX(0) scale(1);
       }
     }
     @keyframes rotation-slide-out {
