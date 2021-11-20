@@ -1,5 +1,41 @@
 console.log('powder shop');
 /*global Vue*/
+var mobileTouch = {};
+function touchStart (e) {
+  if (!mobileTouch.start) mobileTouch.start = e.touches[0] || e.changedTouches[0];
+};
+function touchMove (e) {
+  e.preventDefault(); /* Disable normal scrolling */
+};
+function touchEnd (e) {
+  var end = e.touches[0] || e.changedTouches[0];
+  if (mobileTouch.start) {
+    if (mobileTouch.start.clientX - end.clientX > 100) { //swipe left
+      const evt = new CustomEvent("swipe-left", {"bubbles":true, "cancelable":false});
+      e.target.dispatchEvent(evt);
+      delete mobileTouch.start;
+      return;
+    } else if (mobileTouch.start.clientX - end.clientX < -100) { // swipe left
+      const evt = new CustomEvent("swipe-right", {"bubbles":true, "cancelable":false});
+      e.target.dispatchEvent(evt);
+      delete mobileTouch.start;
+      return;
+    }
+    if (mobileTouch.start.clientY - end.clientY > 100) { //swipe down
+      const evt = new CustomEvent("swipe-down", {"bubbles":true, "cancelable":false});
+      e.target.dispatchEvent(evt);
+      delete mobileTouch.start;
+      return;
+    } else if (mobileTouch.start.clientY - end.clientY < -100) { // swipe up
+      const evt = new CustomEvent("swipe-up", {"bubbles":true, "cancelable":false});
+      e.target.dispatchEvent(evt);
+      delete mobileTouch.start;
+      return;
+    }
+  };
+};
+
+
 
 export default {
   name: 'timeline',
@@ -24,7 +60,11 @@ export default {
       this.$nextTick(() => {
         this.toggleLoading(false);
         this.createObserver();
-        document.getElementById('shop-slides').addEventListener('wheel', this.mousewheel, true);
+        var el = document.getElementById('shop-slides');
+        el.addEventListener('wheel', this.mousewheel, true);
+        el.addEventListener('touchstart', touchStart);
+        el.addEventListener('touchmove', touchMove);
+        el.addEventListener('touchend', touchEnd);
       })
     });
   },
@@ -73,18 +113,16 @@ export default {
       e.preventDefault();
       if (e.deltaY<0) {
         if (this.slide > 0)
-          document.getElementById('shop-slides').scrollTop-=window.innerHeight;
+          document.getElementById('shop-slides').scrollTop=(this.slide-1)*window.innerHeight;
       } else {
         if (this.slide < this.shop.length)
-          document.getElementById('shop-slides').scrollTop+=window.innerHeight;
+          document.getElementById('shop-slides').scrollTop=(this.slide+1)*window.innerHeight;
       };
     },
     scrollSlide: function (e) {
-      console.log(e);
       var lastPos = document.body.scrollTop;
       window.requestAnimationFrame(() => {
         var pos = document.body.scrollTop;
-        console.log(lastPos, pos)
         if (lastPos >= pos) {
           if (this.slide > 0)
             window.scrollY = (this.slide-1)*window.innerHeight;
@@ -94,6 +132,13 @@ export default {
         };
       });
     },
+    scrollBySwipe: function (n) {
+      if (n>0&&this.slide<this.shop.length) {
+        document.getElementById('shop-slides').scrollTop = (this.slide+1)*window.innerHeight;
+      } else if (n<0&&this.slide>0) {
+        document.getElementById('shop-slides').scrollTop = (this.slide-1)*window.innerHeight;
+      };
+    },
     createObserver: function () {
       let observer;
       let options = {
@@ -102,9 +147,7 @@ export default {
         threshold: 1.0
       };
       observer = new IntersectionObserver((entries) => {
-          console.log(entries)
           entries.forEach(entry => {
-            console.log(entry.isIntersecting)
             var val=parseInt(entry.target.attributes.index.value);
             if (entry.intersectionRatio === 1) {
               this.slide = val;
@@ -144,7 +187,7 @@ export default {
           ])
         })
       })) : null*/
-      this.shop ? h('ul', {style: {width: '100%', height: '100%', overflow: 'auto'}, attrs: {id: 'shop-slides'}}, [
+      this.shop ? h('ul', {style: {width: '100%', height: '100%', overflow: 'auto'}, attrs: {id: 'shop-slides'}, on: {'swipe-left': () => this.scrollBySwipe(1),'swipe-right': () => this.scrollBySwipe(-1),'swipe-up': () => this.scrollBySwipe(-1),'swipe-down': () => this.scrollBySwipe(1)}}, [
         h('transition', {attrs: {name:'slide-bounce'}}, [
           h('div', {key: this.slide, staticClass: 'powder-slide-rotations', style: {position: 'absolute', 'z-index': 1, top: 0, left: 0}}, [
             h('div', {staticClass: 'title-container'}, 'Data della rotazione (' + (this.slide+1) + '/' + this.shop.length + ')'),
