@@ -13,25 +13,17 @@ function touchEnd (e) {
     if (mobileTouch.start.clientX - end.clientX > 100) { //swipe left
       const evt = new CustomEvent("swipe-left", {"bubbles":true, "cancelable":false});
       e.target.dispatchEvent(evt);
-      delete mobileTouch.start;
-      return;
     } else if (mobileTouch.start.clientX - end.clientX < -100) { // swipe left
       const evt = new CustomEvent("swipe-right", {"bubbles":true, "cancelable":false});
       e.target.dispatchEvent(evt);
-      delete mobileTouch.start;
-      return;
-    }
-    if (mobileTouch.start.clientY - end.clientY > 100) { //swipe down
+    } else if (mobileTouch.start.clientY - end.clientY > 100) { //swipe down
       const evt = new CustomEvent("swipe-down", {"bubbles":true, "cancelable":false});
       e.target.dispatchEvent(evt);
-      delete mobileTouch.start;
-      return;
     } else if (mobileTouch.start.clientY - end.clientY < -100) { // swipe up
       const evt = new CustomEvent("swipe-up", {"bubbles":true, "cancelable":false});
       e.target.dispatchEvent(evt);
-      delete mobileTouch.start;
-      return;
     }
+    delete mobileTouch.start;
   };
 };
 
@@ -228,25 +220,25 @@ export default {
 (function () {
   var styles = `
     .slide-bounce-enter-active {
-      /*animation: rotation-slide-in .5s;*/
+      animation: rotation-slide-in .5s;
     }
     .slide-bounce-leave-active {
-      /*animation: rotation-slide-out .5s;*/
+      animation: rotation-slide-out .5s;
     }
     @keyframes rotation-slide-in {
       0% {
-        opacity: 0;
+        transform: scale(0.85);
       }
       100% {
-        opacity: 1;
+        transform: scale(1);
       }
     }
     @keyframes rotation-slide-out {
       0% {
-        opacity: 1;
+        transform: scale(1);
       }
       100% {
-        opacity: 0;
+        transform: scale(0.85);
       }
     }
     .powder-slide-rotations {
