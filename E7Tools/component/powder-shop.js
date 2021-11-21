@@ -10,16 +10,16 @@ function touchMove (e) {
 function touchEnd (e) {
   var end = e.touches[0] || e.changedTouches[0];
   if (mobileTouch.start) {
-    if (mobileTouch.start.clientX - end.clientX > 100) { //swipe left
+    if (mobileTouch.start.clientX - end.clientX > 50) { //swipe left
       const evt = new CustomEvent("swipe-left", {"bubbles":true, "cancelable":false});
       e.target.dispatchEvent(evt);
-    } else if (mobileTouch.start.clientX - end.clientX < -100) { // swipe left
+    } else if (mobileTouch.start.clientX - end.clientX < -50) { // swipe left
       const evt = new CustomEvent("swipe-right", {"bubbles":true, "cancelable":false});
       e.target.dispatchEvent(evt);
-    } else if (mobileTouch.start.clientY - end.clientY > 100) { //swipe down
+    } else if (mobileTouch.start.clientY - end.clientY > 50) { //swipe down
       const evt = new CustomEvent("swipe-down", {"bubbles":true, "cancelable":false});
       e.target.dispatchEvent(evt);
-    } else if (mobileTouch.start.clientY - end.clientY < -100) { // swipe up
+    } else if (mobileTouch.start.clientY - end.clientY < -50) { // swipe up
       const evt = new CustomEvent("swipe-up", {"bubbles":true, "cancelable":false});
       e.target.dispatchEvent(evt);
     }
@@ -38,6 +38,7 @@ export default {
       shop: null,
       artifacts: null,
       slide: 0,
+      observer: null,
       animationEnter: 'slide-from-right',
       openShopList: false
     }
@@ -65,6 +66,7 @@ export default {
         this.createObserver();
         var el = document.getElementById('shop-slides');
         el.addEventListener('wheel', this.mousewheel, true);
+        document.addEventListener('keydown', this.handleKeyDown, false)
         el.addEventListener('touchstart', touchStart);
         el.addEventListener('touchmove', touchMove);
         el.addEventListener('touchend', touchEnd);
@@ -72,7 +74,13 @@ export default {
     });
   },
   beforeDestroy: function(){
-    document.getElementById('shop-slides').removeEventListener('wheel', this.mousewheel);
+    document.removeEventListener('keydown', this.handleKeyDown)
+    //document.getElementById('shop-slides').removeEventListener('wheel', this.mousewheel);
+    const boxElList = document.querySelectorAll('li');
+    boxElList.forEach((el) => {
+      this.observer.unobserve(el);
+    });
+    this.observer = null;
   },
   mounted: function () {
   },
@@ -103,6 +111,9 @@ export default {
     },
     getArtifactIcon: function (id) {
       return this.$store.getters.getArtifactIcon(id);
+    },
+    getArtifactImage: function (id) {
+      return this.$store.getters.getArtifactImage(id);
     },
     getRarityIcon: function (id) {
       return this.$store.getters.getRarityIcon(id);
@@ -143,17 +154,30 @@ export default {
         document.getElementById('shop-slides').scrollTop = (this.slide-1)*window.innerHeight;
       };
     },
+    handleKeyDown: function (e) {
+      if (e.ctrlKey) return;
+      e.preventDefault();
+      if (
+        e.keyCode === 39 || e.key === 'ArrowRight' ||
+        e.keyCode === 40 || e.key === 'ArrowDown' ||
+        e.keyCode === 68 || e.key === 'd'
+      ) this.scrollBySwipe(1);
+      else if (
+        e.keyCode === 37 || e.key === 'ArrowLeft' ||
+        e.keyCode === 38 || e.key === 'ArrowUp' ||
+        e.keyCode === 65 || e.key === 'a'
+      ) this.scrollBySwipe(-1);
+    },
     scrollToSelected: function (n) {
       document.getElementById('shop-slides').scrollTop = (n)*window.innerHeight;
     },
     createObserver: function () {
-      let observer;
       let options = {
         root: null,
         rootMargin: "0px",
         threshold: 0.8
       };
-      observer = new IntersectionObserver((entries) => {
+      this.observer = new IntersectionObserver((entries) => {
           entries.forEach(entry => {
             var val=parseInt(entry.target.attributes.index.value);
             if (entry.isIntersecting) {
@@ -169,7 +193,7 @@ export default {
       );
       const boxElList = document.querySelectorAll('li');
       boxElList.forEach((el) => {
-        observer.observe(el);
+        this.observer.observe(el);
       });
     },
   },
@@ -179,7 +203,7 @@ export default {
     }
   },
   render: function (h) {
-    return h('section', {staticClass: '', style: {/*width: '100%', 'max-width': '800px', margin: 'auto'*/} }, [
+    return h('section', {staticClass: '', attrs: {id: 'shop-container'}, style: {/*width: '100%', 'max-width': '800px', margin: 'auto'*/} }, [
       h('floating-menu',{props: {mobile: this.mobile, options: [{title: 'Home', class: 'fa fa-home', click: 'home'}]}, on: {home: ()=>this.home()} }),
       /*h('h2', 'Powder shop rotations'),*/
       /*
@@ -199,13 +223,14 @@ export default {
           h('div', {key: this.slide, staticClass: 'powder-slide-rotations', style: {position: 'absolute', 'z-index': 1, top: 0, left: 0}}, [
             h('div', {staticClass: 'title-container'}, [
               h('button', {staticClass: 'fa fa-list rotation-list-btn', on: {click: () => this.toggleShopList()}}),
-              'Data della rotazione (' + (this.slide+1) + '/' + this.shop.length + ')'
+              h('span', {style: {float: 'left', 'padding-left': '10px'}}, (this.slide+1) + '/' + this.shop.length ),
+              this.shop[this.slide].dt.join(' ~ ')
             ]),
             h('div', {staticClass: 'rotation'},
               this.shop[this.slide].a.map( (artifact,j) => {
-                return h('div', {staticClass: 'artifact', style: {'background-image': 'url('+['https://assets.epicsevendb.com/_source/item_arti/art5_21_fu.png','https://assets.epicsevendb.com/_source/item_arti/art0122_fu.png','https://epic7x.com/wp-content/uploads/2020/10/Double-Edged-Decrescent.png','https://assets.epicsevendb.com/_source/item_arti/art0094_fu.png','https://assets.epicsevendb.com/_source/item_arti/art5_20_fu.png','https://assets.epicsevendb.com/_source/item_arti/art4_5_fu.png','https://assets.epicsevendb.com/_source/item_arti/art4_16_fu.png'][j] +')'  }}, [
-                    h('td', {style: {'padding-left': '8px'}}, new Array(this.artifact(artifact.id).rarity || 1).fill(h('img', {attrs: {src: this.getRarityIcon()}, style: {height: '20px', 'margin-left': '-8px', 'vertical-align': 'middle'} }))),
-                    h('span', {style: {'writing-mode': 'vertical-lr','text-orientation': 'inherit',transform: 'rotate(180deg)',position: 'absolute',bottom: 0,right: 0,'font-size': '30px','color': 'yellow','text-shadow': '0 0px 5px #e99e14'} }, this.artifact(artifact.id).name)
+                return h('div', {staticClass: 'artifact', style: {'background-image': 'url(' + this.getArtifactImage(artifact.id) + ')'  }}, [
+                    h('span', {style: {'padding-left': '8px'}}, new Array(this.artifact(artifact.id).rarity || 1).fill(h('img', {attrs: {src: this.getRarityIcon()}, style: {height: '20px', 'margin-left': '-8px', 'vertical-align': 'middle'} }))),
+                    h('span', {staticClass: 'vertical-name'}, this.artifact(artifact.id).name)
                 ])
               })
             )
@@ -214,13 +239,15 @@ export default {
         this.shop.map( (rotation,i) => {
           return h('li', {staticClass: 'powder-slide-rotations', style: {visibility: 'hidden'}, attrs: {index: i}}, [
             h('div', {staticClass: 'title-container'}, 'Data della rotazione'),
-            h('div', {staticClass: 'rotation'},
+            h('div', {staticClass: 'rotation'}
+            /*,
               rotation.a.map( (artifact,j) => {
                 return h('div', {staticClass: 'artifact', style: {}}, [
-                    h('td', {style: {'padding-left': '8px'}}, new Array(this.artifact(artifact.id).rarity || 1).fill(h('img', {attrs: {src: this.getRarityIcon()}, style: {height: '20px', 'margin-left': '-8px', 'vertical-align': 'middle'} }))),
-                    h('span', {style: {'writing-mode': 'vertical-lr','text-orientation': 'inherit',transform: 'rotate(180deg)',position: 'absolute',bottom: 0,right: 0,'font-size': '30px','color': 'yellow','text-shadow': '0 0px 5px #e99e14'} }, this.artifact(artifact.id).name)
+                    h('span', {style: {'padding-left': '8px'}}, new Array(this.artifact(artifact.id).rarity || 1).fill(h('img', {attrs: {src: this.getRarityIcon()}, style: {height: '20px', 'margin-left': '-8px', 'vertical-align': 'middle'} }))),
+                    h('span', {staticClass: 'vertical-name' }, this.artifact(artifact.id).name)
                 ])
               })
+            */
             )
           ])
         })
@@ -285,19 +312,19 @@ export default {
       background-color: #252526;
     }
     .powder-slide-rotations > .title-container {
-      height: 35px;
+      height: 45px;
       width: 100%;
-      height: 35px;
+      height: 45px;
       width: 100%;
       background-color: white;
       color: black;
       text-align: center;
-      line-height: 35px;
+      line-height: 45px;
     }
     .powder-slide-rotations > .rotation {
       display: flex;
       width: 100%;
-      height: calc(100% - 35px);
+      height: calc(100% - 45px);
     }
     .powder-slide-rotations > .rotation > .artifact {
       flex: 1;
@@ -314,6 +341,18 @@ export default {
     .powder-slide-rotations > .rotation > .artifact:hover {
       filter: grayscale(0);
     }
+    .powder-slide-rotations > .rotation > .artifact > .vertical-name{
+      writing-mode: vertical-lr;
+      text-orientation: inherit;
+      transform: rotate(180deg);
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      font-size: 30px;
+      color: yellow;
+      text-shadow: 0 0px 5px #e91414;
+      pointer-events: none;
+    }
     .rotation-list-btn {
       float: right;
       padding: 6px;
@@ -322,11 +361,14 @@ export default {
       background-color: #0001;
       border: none;
       font-size: 16px;
+      height: 40px;
+      width: 40px;
+      border-radius: 4px;
     }
     .rotation-list-box {
       position: absolute;
-      height: calc(100% - 35px);
-      top: 35px;
+      height: calc(100% - 45px);
+      top: 45px;
       width: 300px;
       right: 0;
       overflow: auto;
@@ -343,6 +385,7 @@ export default {
     .rotation-list-box > .elements:not(.active):hover {
       background-color: #05050540;
     }
+
   }
   `;
   var styleSheet = document.createElement("style");
