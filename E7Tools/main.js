@@ -190,13 +190,16 @@ const store = new Vuex.Store({
         return state.HeroDB[id] || {id: id, _id: id, name: id, rarity: 5, attribute: 'fire', role: 'knight'};
       },
       getHeroIcon: (state) => (id) => {
-        return 'https://cdn.glitch.com/6c14ca82-3bcb-4fd6-afa7-815b95e04a14%2F' + (state.HeroDB[id] || {id: id}).id + '_s.png';
+        return 'https://res.cloudinary.com/ceciliabot/image/upload/epic-seven/face/' + (state.HeroDB[id] || {id: id}).id + '_s.png';
       },
       getArtifact: (state) => (id) => {
         return state.ArtifactDB[id] || {id: id, _id: id, name: id, rarity: 5};
       },
       getArtifactIcon: (state) => (artifact) => {
-        return 'https://cdn.glitch.com/f70857a1-7b0f-4f6d-a1f1-2c24d95fcc88%2Fmissing.png?v=1633188110287';
+        return 'https://res.cloudinary.com/ceciliabot/image/upload/epic-seven/artifact/' + artifact + '_s.png';
+      },
+      getArtifactImage: (state) => (artifact) => {
+        return 'https://res.cloudinary.com/ceciliabot/image/upload/epic-seven/artifact/' + artifact + '_fu.png';
       },
       getBannerPulls: (state) => (id) => {
         return state.pulls[id] || {};
