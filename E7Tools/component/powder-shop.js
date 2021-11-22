@@ -30,7 +30,7 @@ function touchEnd (e) {
 
 
 export default {
-  name: 'timeline',
+  name: 'powder-shop',
   props: {
   },
   data: function () {
@@ -223,6 +223,8 @@ export default {
           h('div', {key: this.slide, staticClass: 'powder-slide-rotations', style: {position: 'absolute', 'z-index': 1, top: 0, left: 0}}, [
             h('div', {staticClass: 'title-container'}, [
               h('button', {staticClass: 'fa fa-list rotation-list-btn', on: {click: () => this.toggleShopList()}}),
+              this.shop[this.slide].nid ? h('a', {attrs: {target: '_blank', href: 'https://page.onstove.com/epicseven/global/view/'+this.shop[this.slide].nid}, style: {float: 'right', height: '100%', width: '110px', 'margin-right': '14px',background: 'url(https://static-cdn.onstove.com/0.0.14/img/gnb/bi.svg) no-repeat scroll 0% 50%'}, directives: [{name: 'tooltip', value: 'Read stove notice!'}]}, [
+              ]) : null,
               h('span', {style: {float: 'left', 'padding-left': '10px'}}, (this.slide+1) + '/' + this.shop.length ),
               this.shop[this.slide].dt.join(' ~ ')
             ]),
