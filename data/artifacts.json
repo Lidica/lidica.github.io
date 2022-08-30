@@ -316,16 +316,6 @@
         "limited": true,
         "gacha": false
     },
-    "fullmetals-automail": {
-        "_id": "fullmetals-automail",
-        "id": "art0157",
-        "identifier": "",
-        "name": "Fullmetal's Automail",
-        "rarity": 5,
-        "role": "warrior",
-        "limited": true,
-        "gacha": true
-    },
     "glowings-21": {
         "_id": "glowings-21",
         "id": "art0149",
@@ -387,16 +377,6 @@
         "name": "Idol's Cheer",
         "rarity": 5,
         "role": "manauser",
-        "gacha": true
-    },
-    "ignition-cloth-gloves": {
-        "_id": "ignition-cloth-gloves",
-        "id": "art0158",
-        "identifier": "",
-        "name": "Ignition Cloth Gloves",
-        "rarity": 5,
-        "role": "mage",
-        "limited": true,
         "gacha": true
     },
     "indestructible-gaiters": {
@@ -624,16 +604,6 @@
         "name": "Severed Horn Wand",
         "rarity": 5,
         "role": "mage",
-        "gacha": false
-    },
-    "sharpshooters-handgun": {
-        "_id": "sharpshooters-handgun",
-        "id": "art0159",
-        "identifier": "",
-        "name": "Sharpshooter's Handgun",
-        "rarity": 5,
-        "role": "ranger",
-        "limited": true,
         "gacha": false
     },
     "shepherd-of-the-hollow": {
