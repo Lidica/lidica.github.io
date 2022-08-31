@@ -6455,11 +6455,9 @@ icon-bar span img {
             })
           ).then((data, cData) => {
             var db = {}
-            for (var hero in cData) {
-              if (data[hero])
-                db[hero] = Object.assign({}, cData[hero], data[hero])
-              else
-                delete cData[hero]
+            for (var hero in cData[0]) {
+              if (data[0][hero])
+                db[hero] = Object.assign({}, cData[0][hero], data[0][hero])
             }
             this.HeroDB = db;
             console.log(this.HeroDB)
