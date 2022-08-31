@@ -6456,11 +6456,12 @@ icon-bar span img {
           ).then((data, cData) => {
             for (var hero in cData) {
               if (data[hero])
-                Object.assign(cData, data)
+                Object.assign(cData[hero], data[hero])
               else
                 delete cData[hero]
             }
             this.HeroDB = cData;
+            console.log(this.HeroDB)
             if (!urlParams.get("camproster")) { // get roster from file
               this.getUserHeroesBoot();
             } else {// get roster from url
