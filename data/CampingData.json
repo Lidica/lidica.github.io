@@ -17061,5 +17061,559 @@
             20
         ],
         "common": []
+    },
+    "moon-bunny-dominiel": {
+        "camping": {
+            "personalities": [
+                "Arrogant",
+                "Envious"
+            ],
+            "topics": [
+                "Food Story",
+                "Heroic Tale"
+            ],
+            "values": {
+                "Criticism": 8,
+                "Reality Check": 0,
+                "Heroic Tale": 7,
+                "Comforting Cheer": 3,
+                "Cute Cheer": 6,
+                "Heroic Cheer": 3,
+                "Sad Memory": 0,
+                "Joyful Memory": 1,
+                "Happy Memories": 3,
+                "Unique Comment": 1,
+                "Self-Indulgent": 2,
+                "Occult": 5,
+                "Myth": 9,
+                "Bizarre Story": 0,
+                "Food Story": 5,
+                "Horror Story": 0,
+                "Gossip": 0,
+                "Dream": 3,
+                "Advice": 3,
+                "Complain": 0,
+                "Belief": 3,
+                "Interesting Story": 1
+            }
+        },
+        "skills": [
+            {
+                "buff": [],
+                "debuff": [
+                    21
+                ],
+                "common": []
+            },
+            {
+                "buff": [],
+                "debuff": [],
+                "common": []
+            },
+            {
+                "buff": [],
+                "debuff": [],
+                "common": []
+            }
+        ],
+        "buffs": [
+            1,
+            12,
+            5,
+            46
+        ],
+        "debuffs": [
+            21
+        ],
+        "common": []
+    },
+    "edward-elric": {
+        "camping": {
+            "personalities": [
+                "Academic",
+                "Hard Worker"
+            ],
+            "topics": [
+                "Sad Memory",
+                "Complain"
+            ],
+            "values": {
+                "Criticism": 4,
+                "Reality Check": 3,
+                "Heroic Tale": 2,
+                "Comforting Cheer": 6,
+                "Cute Cheer": 3,
+                "Heroic Cheer": 3,
+                "Sad Memory": 3,
+                "Joyful Memory": 3,
+                "Happy Memories": 0,
+                "Unique Comment": 0,
+                "Self-Indulgent": 5,
+                "Occult": 3,
+                "Myth": 5,
+                "Bizarre Story": 0,
+                "Food Story": 3,
+                "Horror Story": 0,
+                "Gossip": 2,
+                "Dream": 3,
+                "Advice": 3,
+                "Complain": 1,
+                "Belief": 1,
+                "Interesting Story": 3
+            }
+        },
+        "skills": [
+            {
+                "buff": [],
+                "debuff": [],
+                "common": []
+            },
+            {
+                "buff": [],
+                "debuff": [],
+                "common": []
+            },
+            {
+                "buff": [],
+                "debuff": [],
+                "common": []
+            }
+        ],
+        "buffs": [
+            5
+        ],
+        "debuffs": [
+            17,
+            22,
+            25,
+            28,
+            61
+        ],
+        "common": []
+    },
+    "roy-mustang": {
+        "camping": {
+            "personalities": [
+                "Heroism",
+                "Envious"
+            ],
+            "topics": [
+                "Reality Check",
+                "Belief"
+            ],
+            "values": {
+                "Criticism": 3,
+                "Reality Check": 0,
+                "Heroic Tale": 5,
+                "Comforting Cheer": 3,
+                "Cute Cheer": 3,
+                "Heroic Cheer": 6,
+                "Sad Memory": 3,
+                "Joyful Memory": 4,
+                "Happy Memories": 4,
+                "Unique Comment": 3,
+                "Self-Indulgent": 2,
+                "Occult": 2,
+                "Myth": 7,
+                "Bizarre Story": 0,
+                "Food Story": 4,
+                "Horror Story": 2,
+                "Gossip": 0,
+                "Dream": 5,
+                "Advice": 2,
+                "Complain": 0,
+                "Belief": 3,
+                "Interesting Story": 2
+            }
+        },
+        "skills": [
+            {
+                "buff": [],
+                "debuff": [],
+                "common": []
+            },
+            {
+                "buff": [],
+                "debuff": [],
+                "common": []
+            },
+            {
+                "buff": [],
+                "debuff": [],
+                "common": []
+            }
+        ],
+        "buffs": [],
+        "debuffs": [],
+        "common": []
+    },
+    "riza-hawkeye": {
+        "camping": {
+            "personalities": [
+                "Loyal",
+                "Cool-Headed"
+            ],
+            "topics": [
+                "Joyful Memory",
+                "Gossip"
+            ],
+            "values": {
+                "Criticism": 2,
+                "Reality Check": 3,
+                "Heroic Tale": 3,
+                "Comforting Cheer": 3,
+                "Cute Cheer": 1,
+                "Heroic Cheer": 5,
+                "Sad Memory": 3,
+                "Joyful Memory": 3,
+                "Happy Memories": 2,
+                "Unique Comment": 3,
+                "Self-Indulgent": 0,
+                "Occult": 0,
+                "Myth": 1,
+                "Bizarre Story": 0,
+                "Food Story": 2,
+                "Horror Story": 0,
+                "Gossip": 0,
+                "Dream": 1,
+                "Advice": 2,
+                "Complain": 0,
+                "Belief": 0,
+                "Interesting Story": 1
+            }
+        },
+        "skills": [
+            {
+                "buff": [],
+                "debuff": [
+                    26
+                ],
+                "common": []
+            },
+            {
+                "buff": [],
+                "debuff": [],
+                "common": []
+            },
+            {
+                "buff": [],
+                "debuff": [],
+                "common": []
+            }
+        ],
+        "buffs": [
+            12
+        ],
+        "debuffs": [
+            26
+        ],
+        "common": []
+    },
+    "commander-pavel": {
+        "camping": {
+            "personalities": [
+                "Realistic",
+                "Cool-Headed"
+            ],
+            "topics": [
+                "Belief",
+                "Dream"
+            ],
+            "values": {
+                "Criticism": 5,
+                "Reality Check": 5,
+                "Heroic Tale": 0,
+                "Comforting Cheer": 0,
+                "Cute Cheer": 1,
+                "Heroic Cheer": 2,
+                "Sad Memory": 0,
+                "Joyful Memory": 1,
+                "Happy Memories": 0,
+                "Unique Comment": 3,
+                "Self-Indulgent": 0,
+                "Occult": 0,
+                "Myth": 0,
+                "Bizarre Story": 0,
+                "Food Story": 0,
+                "Horror Story": 2,
+                "Gossip": 1,
+                "Dream": 0,
+                "Advice": 2,
+                "Complain": 0,
+                "Belief": 2,
+                "Interesting Story": 1
+            }
+        },
+        "skills": [
+            {
+                "buff": [],
+                "debuff": [
+                    17
+                ],
+                "common": []
+            },
+            {
+                "buff": [],
+                "debuff": [],
+                "common": []
+            },
+            {
+                "buff": [],
+                "debuff": [],
+                "common": []
+            }
+        ],
+        "buffs": [
+            1
+        ],
+        "debuffs": [
+            17
+        ],
+        "common": []
+    },
+    "lua": {
+        "camping": {
+            "personalities": [
+                "Arrogant",
+                "Envious"
+            ],
+            "topics": [
+                "Belief",
+                "Myth"
+            ],
+            "values": {
+                "Criticism": 8,
+                "Reality Check": 0,
+                "Heroic Tale": 7,
+                "Comforting Cheer": 3,
+                "Cute Cheer": 6,
+                "Heroic Cheer": 3,
+                "Sad Memory": 0,
+                "Joyful Memory": 1,
+                "Happy Memories": 3,
+                "Unique Comment": 1,
+                "Self-Indulgent": 2,
+                "Occult": 5,
+                "Myth": 9,
+                "Bizarre Story": 0,
+                "Food Story": 5,
+                "Horror Story": 0,
+                "Gossip": 0,
+                "Dream": 3,
+                "Advice": 3,
+                "Complain": 0,
+                "Belief": 3,
+                "Interesting Story": 1
+            }
+        },
+        "skills": [
+            {
+                "buff": [],
+                "debuff": [
+                    18
+                ],
+                "common": []
+            },
+            {
+                "buff": [],
+                "debuff": [],
+                "common": []
+            },
+            {
+                "buff": [],
+                "debuff": [],
+                "common": []
+            }
+        ],
+        "buffs": [
+            3
+        ],
+        "debuffs": [
+            18,
+            21
+        ],
+        "common": []
+    },
+    "astromancer-elena": {
+        "camping": {
+            "personalities": [
+                "Arrogant",
+                "Religious"
+            ],
+            "topics": [
+                "Self-Indulgent",
+                "Happy Memories"
+            ],
+            "values": {
+                "Criticism": 5,
+                "Reality Check": 0,
+                "Heroic Tale": 5,
+                "Comforting Cheer": 6,
+                "Cute Cheer": 4,
+                "Heroic Cheer": 2,
+                "Sad Memory": 4,
+                "Joyful Memory": 2,
+                "Happy Memories": 4,
+                "Unique Comment": 2,
+                "Self-Indulgent": 0,
+                "Occult": 3,
+                "Myth": 8,
+                "Bizarre Story": 0,
+                "Food Story": 4,
+                "Horror Story": 0,
+                "Gossip": 0,
+                "Dream": 2,
+                "Advice": 5,
+                "Complain": 2,
+                "Belief": 3,
+                "Interesting Story": 0
+            }
+        },
+        "skills": [
+            {
+                "buff": [],
+                "debuff": [],
+                "common": []
+            },
+            {
+                "buff": [],
+                "debuff": [],
+                "common": []
+            },
+            {
+                "buff": [],
+                "debuff": [],
+                "common": []
+            }
+        ],
+        "buffs": [],
+        "debuffs": [
+            61,
+            "stic_no_counter"
+        ],
+        "common": []
+    },
+    "unbound-knight-arowell": {
+        "camping": {
+            "personalities": [
+                "Hard Worker",
+                "Free"
+            ],
+            "topics": [
+                "Interesting Story",
+                "Happy Memories"
+            ],
+            "values": {
+                "Criticism": 3,
+                "Reality Check": 1,
+                "Heroic Tale": 2,
+                "Comforting Cheer": 6,
+                "Cute Cheer": 4,
+                "Heroic Cheer": 3,
+                "Sad Memory": 4,
+                "Joyful Memory": 4,
+                "Happy Memories": 1,
+                "Unique Comment": 2,
+                "Self-Indulgent": 1,
+                "Occult": 1,
+                "Myth": 1,
+                "Bizarre Story": 2,
+                "Food Story": 4,
+                "Horror Story": 1,
+                "Gossip": 1,
+                "Dream": 7,
+                "Advice": 3,
+                "Complain": 1,
+                "Belief": 1,
+                "Interesting Story": 6
+            }
+        },
+        "skills": [
+            {
+                "buff": [],
+                "debuff": [],
+                "common": []
+            },
+            {
+                "buff": [],
+                "debuff": [],
+                "common": []
+            },
+            {
+                "buff": [],
+                "debuff": [],
+                "common": []
+            }
+        ],
+        "buffs": [
+            5,
+            "stic_escort"
+        ],
+        "debuffs": [
+            20
+        ],
+        "common": []
+    },
+    "arunka": {
+        "camping": {
+            "personalities": [
+                "Heroism",
+                "Extrovert"
+            ],
+            "topics": [
+                "Reality Check",
+                "Advice"
+            ],
+            "values": {
+                "Criticism": 0,
+                "Reality Check": 0,
+                "Heroic Tale": 6,
+                "Comforting Cheer": 6,
+                "Cute Cheer": 4,
+                "Heroic Cheer": 6,
+                "Sad Memory": 3,
+                "Joyful Memory": 6,
+                "Happy Memories": 5,
+                "Unique Comment": 2,
+                "Self-Indulgent": 2,
+                "Occult": 1,
+                "Myth": 4,
+                "Bizarre Story": 2,
+                "Food Story": 3,
+                "Horror Story": 5,
+                "Gossip": 2,
+                "Dream": 4,
+                "Advice": 4,
+                "Complain": 0,
+                "Belief": 1,
+                "Interesting Story": 3
+            }
+        },
+        "skills": [
+            {
+                "buff": [],
+                "debuff": [
+                    32
+                ],
+                "common": []
+            },
+            {
+                "buff": [],
+                "debuff": [],
+                "common": []
+            },
+            {
+                "buff": [],
+                "debuff": [],
+                "common": []
+            }
+        ],
+        "buffs": [
+            1
+        ],
+        "debuffs": [
+            32
+        ],
+        "common": []
     }
 }
