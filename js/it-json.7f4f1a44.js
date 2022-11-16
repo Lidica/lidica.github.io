@@ -1,0 +1,1 @@
+"use strict";(self["webpackChunkv3"]=self["webpackChunkv3"]||[]).push([[817],{8349:function(i){i.exports=JSON.parse('["Slide 1 italian","Slide 2 italian","Slide 3 italian"]')}}]);
